@@ -6,7 +6,7 @@ import Navbar from '../../components/Navbar';
 import { useAccount } from 'wagmi';
 import Footer from '../../components/Footer';
 import { useBardTokenBalanceOf, bardTokenAddress } from '../../src/generated'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BuyTokensModal from '../../components/BuyTokensModal';
 import Layout from '../../components/Layout';
 import { formatEther, parseEther } from 'viem';
@@ -16,15 +16,18 @@ import { formatEther, parseEther } from 'viem';
 
 const Home: NextPage = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
-
+    const [bardTknBal, setBardTknBal] = useState<string>("");
     const { address, isConnected } = useAccount();
     const { data } = useBardTokenBalanceOf({
         args: [address as `0x${string}`],
         watch: true
     });
 
-    console.log(data)
+    useEffect(() => {
+        setBardTknBal(formatEther(data as bigint));
+    }, [data])
 
+    if (!bardTknBal) return null;
     return (
         <Layout>
             {!isConnected &&
@@ -33,7 +36,7 @@ const Home: NextPage = () => {
                 </div>
             }
 
-            {(data === 0n) &&
+            {(bardTknBal === '0') &&
                 <div className='mx-auto my-10 justify-center flex '>
                     <div className='p-10 card w-96 bg-base-100 shadow-xl justify-center'>
 
@@ -56,12 +59,12 @@ const Home: NextPage = () => {
 
                 </div>
             }
-            {(data > 0n) &&
+            {(bardTknBal != "0") &&
 
                 <>
 
                     <div className="navbar bg-neutral text-neutral-content rounded-xl">
-                        <h1 className="btn btn-ghost normal-case text-l navbar-start">Current BardToken Balance: {formatEther(data)}</h1>
+                        <h1 className="btn btn-ghost normal-case text-l navbar-start">Current BardToken Balance: {bardTknBal}</h1>
                         <div className='navbar-end mr-2'>
                             <button onClick={() => {
                                 console.log(showModal);
