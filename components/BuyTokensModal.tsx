@@ -1,20 +1,35 @@
 import React, { MouseEventHandler, useState } from 'react'
 
+
+import {barDexAddress,useBarDexSwap} from '../src/generated';
+import { parseEther } from 'viem';
+
 interface Props {
     showModal: boolean,
     setShowModal: (showModal: boolean) => void
 
 }
 
-const BuyTokensModal = ({ showModal, setShowModal }: Props) => {
-    console.log("inside modal", showModal);
+const BuyTokensModal =  ({ showModal, setShowModal }: Props) => {
+
     const [transactionHash, setTransactionHash] = useState<string>('');
     const [value, setValue] = useState<string>('0');
+ 
+    const {data,isLoading,isSuccess,isError,writeAsync} = useBarDexSwap({
+        value: parseEther(value)
+    });
 
     const handleClose = (e:any) => {
         e.preventDefault();
         setValue('0');
         setShowModal(false);
+    }
+
+    const handleBuy =  async (e:any) => {
+        e.preventDefault();
+
+        await writeAsync();
+        setTransactionHash(data?.hash ?? '');
     }
     
     return (
@@ -34,7 +49,8 @@ const BuyTokensModal = ({ showModal, setShowModal }: Props) => {
                 </div>
                 <div className="flex-auto mt-5">
                     
-                        <button className="btn btn-primary mr-4 ">Buy</button>
+                        <button className="btn btn-primary mr-4 "
+                        onClick={handleBuy}> Buy </button>
                         <button disabled={transactionHash ? true : false} onClick={handleClose} className="btn btn-secondary">Cancel</button>
 
                     

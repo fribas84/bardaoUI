@@ -5,12 +5,14 @@ import Head from 'next/head';
 import Navbar from '../../components/Navbar';
 import { useAccount } from 'wagmi';
 import Footer from '../../components/Footer';
-import { useBardTokenBalanceOf } from '../../src/generated'
+import { useBardTokenBalanceOf, bardTokenAddress } from '../../src/generated'
 import { useState } from 'react';
 import BuyTokensModal from '../../components/BuyTokensModal';
 import Layout from '../../components/Layout';
+import { formatEther, parseEther } from 'viem';
 
-const tokenAddress: `0x${string}` = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+
+
 
 const Home: NextPage = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -18,8 +20,10 @@ const Home: NextPage = () => {
     const { address, isConnected } = useAccount();
     const { data } = useBardTokenBalanceOf({
         args: [address as `0x${string}`],
+        watch: true
     });
 
+    console.log(data)
 
     return (
         <Layout>
@@ -39,20 +43,39 @@ const Home: NextPage = () => {
                             <p> Your current BRDT balance is 0, in order to create a subDAO you need to adquire BarDAO Tokens</p>
                         </div>
                         <div className="card-actions justify-center">
-                            <button onClick={() => 
-                            {   console.log(showModal);
-                                setShowModal(true);}
-                        }
+                            <button onClick={() => {
+                                setShowModal(true);
+                            }
+                            }
                                 className="btn btn-primary">Buy BardTokens</button>
-                                <BuyTokensModal showModal={showModal} setShowModal={setShowModal} />
+
                         </div>
 
-                        
+
                     </div>
 
                 </div>
             }
+            {(data > 0n) &&
 
+                <>
+
+                    <div className="navbar bg-neutral text-neutral-content rounded-xl">
+                        <h1 className="btn btn-ghost normal-case text-l navbar-start">Current BardToken Balance: {formatEther(data)}</h1>
+                        <div className='navbar-end mr-2'>
+                            <button onClick={() => {
+                                console.log(showModal);
+                                setShowModal(true);
+                            }
+                            }
+                                className="btn btn-primary">Buy BardTokens</button>
+                        </div>
+                    </div>
+
+                </>
+            }
+
+            <BuyTokensModal showModal={showModal} setShowModal={setShowModal} />
         </Layout>
     );
 };
