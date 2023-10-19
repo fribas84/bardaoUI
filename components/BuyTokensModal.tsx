@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useEffect, useState } from 'react'
 
 
-import { barDexAddress, useBarDexSwap } from '../src/generated';
+import { useBarDexSwap } from '../src/generated';
 import { parseEther } from 'viem';
 
 interface Props {

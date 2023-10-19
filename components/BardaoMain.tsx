@@ -4,11 +4,13 @@ import BuyTokensModal from './BuyTokensModal';
 import NavBarHolder from './NavBarHolder';
 import { useBardTokenBalanceOf } from '../src/generated';
 import { formatEther } from 'viem';
+import CreateSubDaoModal from './CreateSubDaoModal';
 
 type Props = {}
 
 const BardaoMain = (props: Props) => {
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [showModalCreateSubDAO, setShowModalCreateSubDAO] = useState<boolean>(false);
     const [bardTknBal, setBardTknBal] = useState<string>("0");
     const { isConnected, address } = useAccount();
 
@@ -34,9 +36,15 @@ const BardaoMain = (props: Props) => {
             </div>
         }
         {(data !== 0n) &&
-            <NavBarHolder showModal={showModal} setShowModal={setShowModal} bardTknBal={ data !== undefined? formatEther(data?.toString()): '0'} />
+            <NavBarHolder
+                showModal={showModal}
+                setShowModal={setShowModal}
+                showModalCreateSubDAO={showModalCreateSubDAO}
+                setShowModalCreateSubDAO={setShowModalCreateSubDAO}
+                bardTknBal={ data !== undefined? formatEther(data?.toString()): '0'} />
         }
         <BuyTokensModal showModal={showModal} setShowModal={setShowModal} />
+        <CreateSubDaoModal showModal={showModalCreateSubDAO} setShowModal={setShowModalCreateSubDAO} />
     </>
     )
 }
