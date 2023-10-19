@@ -9,7 +9,10 @@ const Navbar = (props: Props) => {
         <div className="navbar bg-primary text-primary-content rounded-xl">
             <Link href="/" className="btn btn-ghost normal-case text-xl navbar-start">barDAO</Link>
             <div className='navbar-end'>
-                <ConnectButton />
+                <ConnectButton
+                    showBalance={false}
+                    chainStatus={{ smallScreen: "icon", largeScreen: "name" }}
+                />
             </div>
         </div>
     )
