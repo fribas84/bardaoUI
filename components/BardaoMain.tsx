@@ -38,8 +38,6 @@ const BardaoMain = (props: Props) => {
         }
         <BuyTokensModal showModal={showModal} setShowModal={setShowModal} />
     </>
-
-
     )
 }
 
