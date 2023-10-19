@@ -11,20 +11,16 @@ interface Props {
 const CreateSubDaoModal = ({ showModal, setShowModal }: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-
-
     const handleClose = (e: any) => {
         e.preventDefault();
         setShowModal(false);
     }
-
-
-
     return (
         <dialog className={showModal ? 'modal modal-bottom sm:modal-middle modal-open' : 'modal modal-bottom sm:modal-middle'}>
             <div className="modal-box">
                 <h3 className="font-bold text-lg">Create subDao:</h3>
                 <p className="py-4">Current price: 1 BRDT.</p>
+               
                 {(!isLoading) && <>
                     <div className="form-control w-full max-w-xs">
                         <label className="label">
@@ -56,7 +52,6 @@ const CreateSubDaoModal = ({ showModal, setShowModal }: Props) => {
                         <textarea className="textarea textarea-bordered textarea-primary h-24" placeholder="Bio"></textarea>
                         
                     </div>
-
 
                     <div className="flex-auto mt-5">
                         <button className="btn btn-primary mr-4 "
