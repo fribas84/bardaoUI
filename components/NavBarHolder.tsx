@@ -12,7 +12,9 @@ const NavBarHolder = ({ showModal, setShowModal, showModalCreateSubDAO, setShowM
 
     return (
         <div className="navbar bg-neutral text-neutral-content rounded-xl">
-            <h1 className="btn btn-ghost normal-case text-l navbar-start">Current BardToken Balance: {bardTknBal}</h1>
+            {bardTknBal && 
+            <p className="normal-case text-l navbar-start">Current BardToken Balance: {bardTknBal}</p>
+            }
             <div className='navbar-end mr-2'>
                 <button
                     className="btn btn-secondary mr-2"

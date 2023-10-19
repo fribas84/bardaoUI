@@ -1,6 +1,7 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import dynamic from 'next/dynamic'
 
 import Navbar from '../../components/Navbar';
 import { useAccount } from 'wagmi';
@@ -9,30 +10,25 @@ import { useBardTokenBalanceOf, bardTokenAddress } from '../../src/generated'
 import { useEffect, useState } from 'react';
 import BuyTokensModal from '../../components/BuyTokensModal';
 import Layout from '../../components/Layout';
-import { formatEther, parseEther } from 'viem';
-import NavBarHolder from '../../components/NavBarHolder';
-import Test from '../../components/test';
 import BardaoMain from '../../components/BardaoMain';
-
-
-
+import ClientOnly from './clientOnly';
 
 const Home: NextPage = () => {
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const [bardTknBal, setBardTknBal] = useState<string>("0");
-    const {isConnected, address } = useAccount();
- 
 
-    
+    const { isConnected } = useAccount();
+
     return (
-        <Layout>    
+        <Layout>
+            <ClientOnly> 
             {(!isConnected) &&
                 <div className='my-28'>
                     <h1 className='text-2xl text-center'>Connect to start building!</h1>
                 </div>
             }
-            {isConnected && 
-                <BardaoMain /> }
+            {isConnected &&
+
+                <BardaoMain />}
+                </ClientOnly>
         </Layout>
     );
 };
